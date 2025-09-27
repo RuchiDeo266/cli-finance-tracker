@@ -1,23 +1,28 @@
 import express from "express";
-import pino from "pino";
-import pinoHttp from "pino-http";
+import { pinoHttp } from "pino-http";
 import connectDB from "./database.js";
-import Expense from "./models/expense.js";
+import Expense from "./models/expense.ts";
 
-export const logger = pino();
+import { logger } from "./logs/prod-app.ts";
+
+import userRouter from "./routes/user-routes.ts";
+
+import { errorHandler } from "./middlewares/errorHandlers.ts";
 
 const app = express();
 
 app.use(express.json());
-// use pino-http middleware
-// every request will log automatically.
 app.use(pinoHttp({ logger }));
 
-app.get("/", (req, res) => {
+app.get("/fintrack", (req, res) => {
+  logger.info("Info start");
   res.send("Hello from Fin-Tracker App");
 });
 
-app.post("/add-expense", async (req, res) => {
+// routes
+app.use("/fintrack/api/user", userRouter);
+
+app.post("/fintrack/add-expense", async (req, res) => {
   try {
     const { amount, type_of_expense, date } = req.body;
 
@@ -38,8 +43,14 @@ app.post("/add-expense", async (req, res) => {
   }
 });
 
+app.get("/fintrack/test-error", (req, res) => {
+  throw new Error("This is a test error.");
+});
+
+app.use(errorHandler);
+
 // port
-const port = 3000;
+const port = 4000;
 const startServer = async () => {
   await connectDB();
 
