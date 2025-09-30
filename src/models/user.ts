@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    autoGenerate: true,
-  },
   email: {
     type: "String",
     required: true,

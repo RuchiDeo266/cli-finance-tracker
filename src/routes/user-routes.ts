@@ -19,4 +19,4 @@ userRouter.post("/forgot-password", asyncHandler(forgotPassword));
 // protected
 userRouter.put("/profile-upate", protect, asyncHandler(updateProfile));
 
-export default Router;
+export default userRouter;
