@@ -20,7 +20,7 @@ app.get("/fintrack", (req, res) => {
 });
 
 // routes
-app.use("/fintrack/api/user", userRouter);
+app.use("/fintrack/api/userauth", userRouter);
 
 app.post("/fintrack/add-expense", async (req, res) => {
   try {

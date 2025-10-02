@@ -8,6 +8,7 @@ import {
 } from "../controllers/user-controller.ts";
 
 import { protect } from "../middlewares/auth-middleware.ts";
+import { regerateToken } from "../controllers/token-regerenate-contorller.ts";
 // routes for the user : login , register, profile-update
 
 const userRouter = Router();
@@ -17,6 +18,7 @@ userRouter.post("/login", asyncHandler(loginUser));
 userRouter.post("/forgot-password", asyncHandler(forgotPassword));
 
 // protected
+userRouter.put("/refresh", asyncHandler(regerateToken));
 userRouter.put("/profile-upate", protect, asyncHandler(updateProfile));
 
 export default userRouter;
