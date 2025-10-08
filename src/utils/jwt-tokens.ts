@@ -6,6 +6,8 @@ const ACCESSS_TOKEN_SECRET =
   process.env.ACCESS_TOKEN_SECRET || "accessTokenFinTracker";
 const REFRESH_TOKEN_SECRET =
   process.env.REFRESH_TOKEN_SECRET || "refershTokenFinTracker";
+const TEMPRORY_TOKEN_SECRET =
+  process.env.TEMPRORY_TOKEN_SECRET || "temproryTokenSecret";
 
 //generate tokens
 const generateAccessToken = (userId: string) => {

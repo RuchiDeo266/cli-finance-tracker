@@ -16,6 +16,7 @@ export const regerateToken = async (req: Request, res: Response) => {
   }
 
   let payload: jwt.JwtPayload;
+
   try {
     payload = jwt.verify(
       req.body.refreshToken,

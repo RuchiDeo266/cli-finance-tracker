@@ -28,5 +28,5 @@ const accessToken = new mongoose.Schema({
     default: Date.now,
   },
 });
-// access token for the reset purpose y
+// access token for the reset purpose
 export const accessTokenModel = mongoose.model("AccessToken", accessToken);

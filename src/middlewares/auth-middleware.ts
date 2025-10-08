@@ -1,12 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { AuthorizedRequest } from "../config/interfaces/userInterface.ts";
 
-export const protect = (
-  req: AuthorizedRequest,
-  res: Response,
-  next: NextFunction
-) => {
+export const protect = (req: Request, res: Response, next: NextFunction) => {
   // check the beared token , verify the user and allow the access to update the user.
   // get the accesstoken
   const authHeader = req.headers.authorization;

@@ -4,7 +4,7 @@ import {
   AuthorizedRequest,
   UserLogin,
   UserRegistration,
-} from "../config/interfaces/userInterface.ts";
+} from "../config/types/userInterface.ts";
 import bcrypt from "bcryptjs";
 import { logger } from "../logs/prod-app.ts";
 import {
@@ -51,7 +51,6 @@ export const registerUser = async (req: Request, res: Response) => {
 
   const userId = newUser?._id;
 
-  // TODO refresh and access token uncommenting
   res.status(201).json({
     success: true,
     message: "User registered successfully",
@@ -113,16 +112,10 @@ export const loginUser = async (req: Request, res: Response) => {
   });
 };
 
-// Controller for forgot password
-export const forgotPassword = async (req: Request, res: Response) => {
-  // Logic for handling a "forgot password" request
-  res.status(200).json({ message: "Password reset link sent to email" });
-};
-
 // Controller for updating a user's profile (protected)
-export const updateProfile = async (req: AuthorizedRequest, res: Response) => {
+export const updateProfile = async (req: Request, res: Response) => {
   const username = req.body.newusername;
-  const userId = req.userId;
+  const userId = req.body.user_id; // TODO : change how the things are taken here
 
   if (!userId) {
     return res

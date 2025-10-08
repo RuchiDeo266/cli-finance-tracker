@@ -4,6 +4,8 @@ import connectDB from "./database.js";
 import Expense from "./models/expense.ts";
 
 import { logger } from "./logs/prod-app.ts";
+import dotenv from "dotenv";
+dotenv.config();
 
 import userRouter from "./routes/user-routes.ts";
 
