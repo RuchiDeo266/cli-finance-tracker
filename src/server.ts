@@ -1,7 +1,7 @@
 import express from "express";
 import { pinoHttp } from "pino-http";
 import connectDB from "./database.js";
-import Expense from "./models/expense.ts";
+import Expense from "./models/expense-model.ts";
 
 import { logger } from "./logs/prod-app.ts";
 import dotenv from "dotenv";
@@ -58,6 +58,7 @@ const startServer = async () => {
 
   app.listen(port, () => {
     logger.info(`Server is running on http://localhost:${port}`);
+    // launch the category for the everyone :: once
   });
 };
 

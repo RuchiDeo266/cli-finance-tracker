@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import User from "../models/user.ts";
-import { accessTokenModel } from "../models/accessToken.ts";
-import { generateSixDigitsCode } from "../utils/random-code-generator.ts";
+import User from "../../models/user.ts";
+import { accessTokenModel } from "../../models/accessToken.ts";
+import { generateSixDigitsCode } from "../../utils/random-code-generator.ts";
 
 import bcrypt from "bcryptjs";
-import { sendEmail } from "../services/emailservices.ts";
-import { logger } from "../logs/prod-app.ts";
+import { sendEmail } from "../../services/emailservices.ts";
+import { logger } from "../../logs/prod-app.ts";
 
 export const forgotPassword = async (req: Request, res: Response) => {
   const userEmail = req.body.email;

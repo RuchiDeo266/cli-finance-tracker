@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
-import User from "../models/user.ts";
+import User from "../../models/user.ts";
 import {
   AuthorizedRequest,
   UserLogin,
   UserRegistration,
-} from "../config/types/userInterface.ts";
+} from "../../config/types/userInterface.ts";
 import bcrypt from "bcryptjs";
-import { logger } from "../logs/prod-app.ts";
+import { logger } from "../../logs/prod-app.ts";
 import {
   generateAccessToken,
   generateRefreshToken,
   verifyAccessToken,
-} from "../utils/jwt-tokens.ts";
+} from "../../utils/jwt-tokens.ts";
 
 // Controller for user registration
 export const registerUser = async (req: Request, res: Response) => {

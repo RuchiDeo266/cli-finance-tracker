@@ -4,13 +4,13 @@ import {
   loginUser,
   registerUser,
   updateProfile,
-} from "../controllers/user-controller.ts";
+} from "../controllers/auth/user-controller.ts";
 import { protect } from "../middlewares/auth-middleware.ts";
-import { regerateToken } from "../controllers/token-regerenate-contorller.ts";
+import { regerateToken } from "../controllers/auth/token-regerenate-contorller.ts";
 import {
   forgotPassword,
   updatePassword,
-} from "../controllers/password-controller.ts";
+} from "../controllers/auth/password-controller.ts";
 
 const userRouter = Router();
 

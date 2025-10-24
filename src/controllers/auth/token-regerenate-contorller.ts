@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-import { refreshTokenModel } from "../models/tokens.ts";
+import { refreshTokenModel } from "../../models/tokens.ts";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../utils/jwt-tokens.ts";
+} from "../../utils/jwt-tokens.ts";
 
 export const regerateToken = async (req: Request, res: Response) => {
   const clientRefreshToken = req.body.refreshToken;

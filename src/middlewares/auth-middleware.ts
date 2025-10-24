@@ -1,7 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-export const protect = (req: Request, res: Response, next: NextFunction) => {
+interface CustomRequest extends Request {
+  userId?: string;
+}
+
+export const protect = (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   // check the beared token , verify the user and allow the access to update the user.
   // get the accesstoken
   const authHeader = req.headers.authorization;
