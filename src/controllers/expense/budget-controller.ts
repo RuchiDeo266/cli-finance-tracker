@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import CategoryModel from "../../models/category-model.ts";
 import { logger } from "../../logs/prod-app.ts";
 import { validateExpenseCategories } from "../../services/validate-service.ts";
 import BudgetModel from "../../models/budget-model.ts";
@@ -18,13 +17,15 @@ export const setBudget = async (req: BudgetSetRequest, res: Response) => {
   if (!limits || !Array.isArray(limits)) {
     return res.status(400).json({
       success: false,
-      message: "Missing month, year, or limits data.",
+      message: "Missing limits data.",
     });
   }
 
   try {
+    // Take all limits name
     const limitsName: string[] = limits.map((limit) => limit.name);
 
+    // Validate the catergory names with existing one
     const validatedNames = await validateExpenseCategories(limitsName);
 
     if (!validatedNames.success) {
@@ -39,76 +40,48 @@ export const setBudget = async (req: BudgetSetRequest, res: Response) => {
     const currentMonth = today.getMonth() + 1;
     const currentYear = today.getFullYear();
 
-    const getBudgetData = await BudgetModel.findOne({ id: userId });
+    const getBudgetData = await BudgetModel.findOne({ userId: userId });
 
     if (!getBudgetData) {
-      BudgetModel.create(
-        {
-          $set: {
-            userId: userId,
-            month: currentMonth,
-            year: currentYear,
-            categoryLimits: limits,
-          },
-        },
-        { new: true, upsert: true, runValidators: true }
-      );
+      // No budget for this month/year yet → create it
+      await BudgetModel.create({
+        userId,
+        month: currentMonth,
+        year: currentYear,
+        categoryLimits: limits,
+      });
     } else {
-      if (currentYear < getBudgetData.year) {
-        await BudgetModel.findOneAndUpdate(
-          {
-            userId: userId,
-          },
-          {
-            $set: {
-              month: currentMonth,
-              year: currentYear,
-              categoryLimits: limits,
-            },
-          },
-          { new: true, upsert: true, runValidators: true }
-        );
-      }
-      if (currentMonth > getBudgetData.month) {
-        await BudgetModel.findOneAndUpdate(
-          {
-            userId: userId,
-            year: currentYear,
-          },
-          {
-            $set: {
-              month: currentMonth,
-              categoryLimits: limits,
-            },
-          },
-          { new: true, upsert: true, runValidators: true }
-        );
-      }
-
-      if (
-        currentMonth === getBudgetData.month &&
-        currentYear === getBudgetData.year
-      ) {
-        await BudgetModel.findOneAndUpdate(
-          {
-            userId: userId,
-            year: currentYear,
-            month: currentMonth,
-          },
-          {
-            $set: {
-              categoryLimits: limits,
-            },
-          },
-          { new: true, upsert: true, runValidators: true }
-        );
-      }
+      // Budget for this month/year exists → update only its limits
+      await BudgetModel.findOneAndUpdate(
+        {
+          userId,
+          month: currentMonth,
+          year: currentYear,
+        },
+        {
+          $set: { categoryLimits: limits },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
     }
     return res.status(201).json({
       success: true,
       message: `Monthly budget for ${currentMonth}/${currentYear} successfully set/updated.`,
     });
-  } catch (error) {}
-};
+  } catch (error) {
+    logger.error(
+      `Failed to set/update monthly budget for user ${userId}: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
 
-export const budgetByCategoryLimitUpdate = async () => {};
+    return res.status(500).json({
+      success: false,
+      message:
+        "Failed to set/update monthly budget. Please try again later or contact support if the issue persists.",
+    });
+  }
+};

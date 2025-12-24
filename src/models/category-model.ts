@@ -10,7 +10,7 @@ const categorySchema: Schema = new Schema({
   },
   type: {
     type: String,
-    enum: ["Expense", "Income", "InitialDeposit"],
+    enum: ["Expense", "Income", "InitialDeposit", "Investment"],
     required: true,
   },
 });

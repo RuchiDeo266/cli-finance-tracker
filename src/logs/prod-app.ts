@@ -19,8 +19,8 @@ import { dirname } from "node:path";
 // logger.error("Failed to connect to the database.");
 // logger.info("Application is shutting down.");
 
-const logPath = new URL("../logs/app.log", import.meta.url).pathname.slice(1); // strip leading "/C:/"
-mkdirSync(dirname(logPath), { recursive: true }); // ← create logs/ if missing
+// const logPath = new URL("../logs/app.log", import.meta.url).pathname.slice(1); // strip leading "/C:/"
+// mkdirSync(dirname(logPath), { recursive: true }); // ← create logs/ if missing
 
 export const logger = pino(
   pretty({ colorize: true })

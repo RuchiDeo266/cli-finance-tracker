@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Monthly Digest - {{MONTH_NAME}}</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin:0; padding:0; background:#f5f5f5; color:#222; }
+      .digest-wrapper { max-width:900px; margin:24px auto; padding:24px 28px; background:#fff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06); }
+      h1,h2,h3{ margin:0 0 8px; font-weight:600; color:#222; }
+      h1{ font-size:24px; margin-bottom:4px; }
+      h2{ font-size:18px; margin-top:24px; border-bottom:1px solid #e3e3e3; padding-bottom:4px; }
+      p{ margin:4px 0 10px; font-size:13px; line-height:1.5; }
+      .subtitle{ font-size:13px; color:#555; margin-bottom:12px; }
+      .closing-balance{ margin:16px 0 20px; padding:12px 14px; border-radius:6px; background:#f2f7ff; border:1px solid #d5e4ff; }
+      .closing-balance-main{ font-size:16px; font-weight:600; margin-bottom:4px; }
+      .closing-balance-amount{ font-size:22px; font-weight:700; }
+      .section{ margin-top:18px; page-break-inside:avoid; }
+      table{ width:100%; border-collapse:collapse; margin-top:8px; font-size:12px; }
+      th,td{ border:1px solid #e0e0e0; padding:6px 8px; text-align:left; vertical-align:top; }
+      th{ background-color:#fafafa; font-weight:600; }
+      .insight{ margin-top:6px; font-size:12px; font-style:italic; color:#444; }
+      .two-column{ display:flex; gap:12px; margin-top:8px; }
+      .two-column > div{ flex:1; }
+      .chip-label{ display:inline-block; font-size:11px; padding:2px 6px; border-radius:999px; border:1px solid #ddd; background:#fafafa; margin-bottom:4px; }
+      ul{ margin:4px 0 10px 18px; padding:0; font-size:12px; }
+      li{ margin-bottom:4px; }
+      .focus-box{ border-radius:6px; border:1px dashed #d0d0d0; padding:10px 12px; margin-top:8px; font-size:12px; }
+      .focus-label{ font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; color:#777; margin-bottom:4px; }
+      .small{ font-size:11px; color:#777; }
+      .muted { color:#666; font-size:12px; }
+    </style>
+  </head>
+  <body>
+    <div class="digest-wrapper">
+      <!-- HEADER -->
+      <header>
+        <h1>Monthly Digest – {{MONTH_NAME}}</h1>
+        <p class="subtitle">A financial snapshot for {{USER_NAME}} — clear, honest, and built to guide your future.</p>
+      </header>
+
+      <!-- CLOSING BALANCE -->
+      <section class="closing-balance">
+        <div class="closing-balance-main">Closing Balance</div>
+        <div class="closing-balance-amount">₹{{formatCurrency CLOSING_BALANCE}}</div>
+        <p class="small">This is what you actually kept after all income and expenses this month.</p>
+      </section>
+
+      <!-- 1. WHAT YOU EARNED -->
+      <section class="section">
+        <h2>1. What You Earned</h2>
+        <p>This table shows your total income and where it came from.</p>
+
+        {{!-- If INCOME_ROWS provided, render it; otherwise fall back to scalar fields --}}
+        {{#if INCOME_ROWS}}
+          <table>
+            <thead><tr><th>Source</th><th>Amount (₹)</th><th>% of Total</th><th>Notes</th></tr></thead>
+            <tbody>
+              {{#each INCOME_ROWS}}
+                <tr>
+                  <td>{{source}}</td>
+                  <td>{{formatCurrency amount}}</td>
+                  <td>{{percent}}%</td>
+                  <td>{{notes}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        {{else}}
+          <table>
+            <thead><tr><th>Source</th><th>Amount (₹)</th><th>% of Total</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Main Salary</td>
+                <td>{{formatCurrency INCOME_SALARY}}</td>
+                <td>{{INCOME_SALARY_PERCENT}}%</td>
+                <td class="muted">Primary source</td>
+              </tr>
+              <tr>
+                <td>Side Income</td>
+                <td>{{formatCurrency INCOME_SIDE}}</td>
+                <td>{{INCOME_SIDE_PERCENT}}%</td>
+                <td class="muted">Freelance / other</td>
+              </tr>
+            </tbody>
+          </table>
+        {{/if}}
+
+        <p class="insight">
+          Insight: Your primary income source contributed {{PRIMARY_INCOME_PERCENT}}% of your total income.
+          {{#if INCOME_CHANGE_SIGN}}This month your income {{INCOME_CHANGE_SIGN}} {{INCOME_CHANGE_PERCENT}}% compared to last month.{{/if}}
+        </p>
+      </section>
+
+      <!-- 2. SPENDING SUMMARY (supports SPENDING_ROWS OR summary arrays) -->
+      <section class="section">
+        <h2>2. Spending Summary</h2>
+        <p>This shows categories with budget (if available), what you spent, remaining, and overshoot when applicable.</p>
+
+        {{#if SPENDING_ROWS}}
+          <table>
+            <thead>
+              <tr><th>Category</th><th>Budget (₹)</th><th>Spent (₹)</th><th>Remaining (₹)</th><th>Overshoot (%)</th></tr>
+            </thead>
+            <tbody>
+              {{#each SPENDING_ROWS}}
+                <tr>
+                  <td>{{category}}</td>
+                  <td>{{formatCurrency budget}}</td>
+                  <td>{{formatCurrency spent}}</td>
+                  <td>{{formatCurrency remaining}}</td>
+                  <td>{{overshoot_percent}}%</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        {{else}}
+          <table>
+            <thead>
+              <tr><th>Category</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Alert categories (overshoot)</td>
+                <td>
+                  {{#if TOP_OVERSHOOT_CATEGORIES}}
+                    <ul style="margin:6px 0 0 16px; padding:0;">
+                      {{#each TOP_OVERSHOOT_CATEGORIES}}
+                        <li>{{this}}</li>
+                      {{/each}}
+                    </ul>
+                  {{else}}
+                    None
+                  {{/if}}
+                </td>
+              </tr>
+              <tr>
+                <td>Under budget</td>
+                <td>
+                  {{#if UNDER_BUDGET_CATEGORIES}}
+                    <ul style="margin:6px 0 0 16px; padding:0;">
+                      {{#each UNDER_BUDGET_CATEGORIES}}
+                        <li>{{this}}</li>
+                      {{/each}}
+                    </ul>
+                  {{else}}
+                    None
+                  {{/if}}
+                </td>
+              </tr>
+              <tr>
+                <td>Lowest spend categories</td>
+                <td>
+                  {{#if LOW_SPEND_CATEGORIES}}
+                    <ul style="margin:6px 0 0 16px; padding:0;">
+                      {{#each LOW_SPEND_CATEGORIES}}
+                        <li>{{this}}</li>
+                      {{/each}}
+                    </ul>
+                  {{else}}
+                    Not available
+                  {{/if}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        {{/if}}
+
+        <p class="insight">
+          Alert zone: {{#if TOP_OVERSHOOT_CATEGORIES}}{{safeJoin TOP_OVERSHOOT_CATEGORIES ", "}}{{else}}None{{/if}} went over budget. <br />
+          Closing balance (income − expenses): ₹{{formatCurrency CLOSING_BALANCE}}.
+        </p>
+      </section>
+
+      <!-- 4. SPENDING & SAVING PATTERNS -->
+      <section class="section">
+        <h2>4. Your Spending &amp; Saving Patterns</h2>
+
+        <h3>Spending Behaviour</h3>
+        <ul>
+          <li>You consistently spent the most on <strong>{{TOP_SPEND_CATEGORY}}</strong>.</li>
+          <li>You kept spending beyond your limit in <strong>{{REPEATED_OVERSHOOT_CATEGORY}}</strong>.</li>
+          <li>Your lowest spending areas were
+            {{#if LOW_SPEND_CATEGORIES}}
+              <strong>{{safeJoin LOW_SPEND_CATEGORIES ", "}}</strong>.
+            {{else}}
+              <strong>Not available</strong>.
+            {{/if}}
+          </li>
+          <li>Spending was most frequent on <strong>{{TOP_SPEND_DAYS}}</strong>.</li>
+        </ul>
+
+        <h3>Saving Behaviour</h3>
+        <ul>
+          <li>You saved the most in <strong>{{STRONG_SAVING_CATEGORY}}</strong>.</li>
+          <li>Your overall saving pattern (excluding income &amp; investments) was:
+            <strong>{{SAVING_PATTERN_SUMMARY}}</strong>.
+          </li>
+          <li>You can improve savings by trimming
+            {{#if CUT_FROM_CATEGORIES}}
+              <strong>{{safeJoin CUT_FROM_CATEGORIES ", "}}</strong>.
+            {{else}}
+              <strong>Not available</strong>.
+            {{/if}}
+          </li>
+        </ul>
+      </section>
+
+      <!-- 5. HIGHLIGHTS -->
+      <section class="section">
+        <h2>5. Highlights of the Month</h2>
+        <div class="two-column">
+          <div>
+            <div class="chip-label">Big Wins</div>
+            <table><thead><tr><th>Highlight</th></tr></thead><tbody>
+              {{#if HIGHLIGHTS.big_wins}}
+                {{#each HIGHLIGHTS.big_wins}}<tr><td>{{this}}</td></tr>{{/each}}
+              {{else}}
+                <tr><td>None recorded</td></tr>
+              {{/if}}
+            </tbody></table>
+          </div>
+
+          <div>
+            <div class="chip-label">Needs Attention</div>
+            <table><thead><tr><th>Area</th></tr></thead><tbody>
+              {{#if HIGHLIGHTS.needs_attention}}
+                {{#each HIGHLIGHTS.needs_attention}}<tr><td>{{this}}</td></tr>{{/each}}
+              {{else}}
+                <tr><td>None recorded</td></tr>
+              {{/if}}
+            </tbody></table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. TIPS -->
+      <section class="section">
+        <h2>6. Smart Tips – Just for You</h2>
+        <p>These suggestions are based on your unique spending and saving data.</p>
+        <ul>
+          {{#if TIPS}}
+            {{#each TIPS}}<li>{{this}}</li>{{/each}}
+          {{else}}
+            <li>No tips available</li>
+          {{/if}}
+        </ul>
+
+        <p>
+          <strong>Good habits:</strong>
+          {{#if GOOD_HABIT}}{{safeJoin GOOD_HABIT ", "}}{{else}}—{{/if}}<br/>
+          <strong>Habits to fix:</strong>
+          {{#if BAD_HABIT}}{{safeJoin BAD_HABIT ", "}}{{else}}—{{/if}}
+        </p>
+      </section>
+
+      <!-- 7. NEXT MONTH FOCUS -->
+      <section class="section">
+        <h2>7. Focus for Next Month</h2>
+        <div class="focus-box">
+          <div class="focus-label">Theme</div>
+          <p><strong>{{NEXT_MONTH_THEME}}</strong></p>
+
+          <div class="focus-label">Primary Goal</div>
+          <p>{{NEXT_MONTH_GOAL}}</p>
+
+          <div class="focus-label">Three-Step Strategy</div>
+          <ol style="margin:4px 0 0 18px; font-size:12px">
+            {{#if NEXT_MONTH_STEPS}}
+              {{#each NEXT_MONTH_STEPS}}<li>{{this}}</li>{{/each}}
+            {{else}}
+              <li>{{NEXT_MONTH_STEP_1}}</li>
+              <li>{{NEXT_MONTH_STEP_2}}</li>
+              <li>{{NEXT_MONTH_STEP_3}}</li>
+            {{/if}}
+          </ol>
+        </div>
+      </section>
+
+      <!-- FOOTER NOTE -->
+      <section class="section">
+        <p class="small">Money reports don’t change lives. Money awareness does. This summary is here to help you see clearly, choose better, and build a stronger financial future — one month at a time.</p>
+        {{#if generatedAt}}<p class="muted">Generated: {{generatedAt}}</p>{{/if}}
+      </section>
+    </div>
+  </body>
+</html>

@@ -1,10 +1,14 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import { amountTypeEnum } from "../../models/expense-model.ts";
-import { RequestBudget } from "./add-expense-controller.ts";
 import { createTransaction } from "../../utils/expense-transaction.ts";
+import { logger } from "../../logs/prod-app.ts";
 
-export const setInitialDeposit = async (req: RequestBudget, res: Response) => {
-  const { amount, notes, type, transitionType, description } = req.body;
+export interface CustomRequest extends Request {
+  userId: string;
+}
+export const setInitialDeposit = async (req: CustomRequest, res: Response) => {
+  const { amount, description } = req.body;
+
   const userId = req.userId;
 
   const result = await createTransaction(

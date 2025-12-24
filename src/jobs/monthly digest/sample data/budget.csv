@@ -1,0 +1,29 @@
+userId,month,year,categoryName,categoryType,limit
+675123456789abcdef000001,1,2025,Food & Dining,Expense,6000
+675123456789abcdef000001,1,2025,Rent & Mortgage,Expense,6000
+675123456789abcdef000001,1,2025,Transportation,Expense,1000
+675123456789abcdef000001,1,2025,Utilities,Expense,2000
+675123456789abcdef000001,1,2025,Entertainment,Expense,2000
+675123456789abcdef000001,1,2025,Investments,Expense,3000
+675123456789abcdef000001,1,2025,Loan/Credit cards,Expense,2000
+675123456789abcdef000001,1,2025,Luxury/Clothing,Expense,1500
+675123456789abcdef000001,1,2025,Beauty,Expense,800
+675123456789abcdef000001,1,2025,Vacation/Fun time,Expense,1500
+675123456789abcdef000001,1,2025,Subscriptions,Expense,800
+675123456789abcdef000001,1,2025,Other Expenses,Expense,1000
+675123456789abcdef000001,1,2025,Salary,Income,44000
+675123456789abcdef000001,1,2025,Freelance/Gigs,Income,5000
+675123456789abcdef000001,1,2025,Investment Returns,Income,2000
+675123456789abcdef000001,1,2025,Gift/Winnings,Income,1000
+675123456789abcdef000001,1,2025,Reimbursement,Income,500
+675123456789abcdef000001,1,2025,Stocks,Investment,2000
+675123456789abcdef000001,1,2025,Bonds,Investment,500
+675123456789abcdef000001,1,2025,Mutual Funds,Investment,1500
+675123456789abcdef000001,1,2025,Exchange-Traded Funds (ETFs),Investment,500
+675123456789abcdef000001,1,2025,Real Estate,Investment,0
+675123456789abcdef000001,1,2025,Cryptocurrency,Investment,500
+675123456789abcdef000001,1,2025,Retirement Account (401k/IRA),Investment,1000
+675123456789abcdef000001,1,2025,Commodities,Investment,300
+675123456789abcdef000001,1,2025,Savings Account,Investment,3000
+675123456789abcdef000001,1,2025,Certificates of Deposit (CDs),Investment,500
+675123456789abcdef000001,1,2025,Setup,InitialDeposit,0

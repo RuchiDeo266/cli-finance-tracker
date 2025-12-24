@@ -1,0 +1,37 @@
+expenseId,userId,amount,description,category,transactionType,notes,date,isCurrent
+FIN0001,675123456789abcdef000001,20000,"Monthly salary credit","Salary",credit,"Net salary credited",2025-01-01T09:00:00.000Z,false
+FIN0002,675123456789abcdef000001,24000,"Remaining salary after deductions","Salary",credit,"Second part of salary",2025-01-01T09:05:00.000Z,false
+FIN0003,675123456789abcdef000001,3000,"Freelance website bug fix","Freelance/Gigs",credit,"Weekend freelance work",2025-01-10T19:30:00.000Z,false
+FIN0004,675123456789abcdef000001,2000,"UI design mini project","Freelance/Gigs",credit,"Small design contract",2025-01-18T18:00:00.000Z,false
+FIN0005,675123456789abcdef000001,500,"Cab reimbursement from office","Reimbursement",credit,"Travel reimbursement",2025-01-20T11:00:00.000Z,false
+
+FIN0006,675123456789abcdef000001,2500,"Weekly groceries and essentials","Food & Dining",debit,"Supermarket run",2025-01-03T17:30:00.000Z,false
+FIN0007,675123456789abcdef000001,1800,"Dinner outings and takeouts","Food & Dining",debit,"Swiggy/Zomato + dine-out",2025-01-12T20:00:00.000Z,false
+FIN0008,675123456789abcdef000001,2200,"Snacks, coffee and small bites","Food & Dining",debit,"Cafes and snacks",2025-01-22T16:45:00.000Z,false
+
+FIN0009,675123456789abcdef000001,6000,"Monthly room rent","Rent & Mortgage",debit,"Paid to landlord",2025-01-05T09:15:00.000Z,false
+
+FIN0010,675123456789abcdef000001,600,"Metro and bus pass recharge","Transportation",debit,"Local commute",2025-01-04T08:20:00.000Z,false
+FIN0011,675123456789abcdef000001,350,"Occasional cab rides","Transportation",debit,"Office late night return",2025-01-16T22:10:00.000Z,false
+
+FIN0012,675123456789abcdef000001,1100,"Electricity bill","Utilities",debit,"Monthly EB bill",2025-01-09T10:00:00.000Z,false
+FIN0013,675123456789abcdef000001,700,"Wi-Fi and mobile recharge","Utilities",debit,"Internet and phone",2025-01-14T13:30:00.000Z,false
+
+FIN0014,675123456789abcdef000001,900,"Movie + snacks","Entertainment",debit,"Weekend movie outing",2025-01-11T19:15:00.000Z,false
+FIN0015,675123456789abcdef000001,850,"Board games and café hangout","Entertainment",debit,"Friends meetup",2025-01-25T18:45:00.000Z,false
+
+FIN0016,675123456789abcdef000001,1500,"SIP into mutual fund","Mutual Funds",investment,"Monthly SIP",2025-01-06T07:30:00.000Z,false
+FIN0017,675123456789abcdef000001,1000,"Equity purchase","Stocks",investment,"Long-term investment",2025-01-21T12:00:00.000Z,false
+FIN0018,675123456789abcdef000001,500,"Crypto buy","Cryptocurrency",investment,"Small experimental position",2025-01-28T15:15:00.000Z,false
+
+FIN0019,675123456789abcdef000001,700,"Streaming platforms","Subscriptions",debit,"Netflix + Spotify + others",2025-01-02T08:00:00.000Z,false
+
+FIN0020,675123456789abcdef000001,1200,"Skincare and salon","Beauty",debit,"Facial and products",2025-01-19T17:00:00.000Z,false
+
+FIN0021,675123456789abcdef000001,1000,"Shopping – clothes and accessories","Luxury/Clothing",debit,"New tops and earrings",2025-01-13T16:00:00.000Z,false
+
+FIN0022,675123456789abcdef000001,800,"Weekend short city trip","Vacation/Fun time",debit,"Local one-day getaway",2025-01-27T09:30:00.000Z,false
+
+FIN0023,675123456789abcdef000001,600,"Miscellaneous items","Other Expenses",debit,"Unplanned small spends",2025-01-24T11:45:00.000Z,false
+
+FIN0024,675123456789abcdef000001,100000,"Initial balance when starting the app","Setup",initialdeposit,"User’s starting balance; marks current active initial deposit",2025-01-01T08:30:00.000Z,true

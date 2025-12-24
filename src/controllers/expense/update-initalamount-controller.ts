@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
-import { Request, Response } from "express";
+import { Response } from "express";
 
 import { RequestBudget } from "./add-expense-controller.ts";
-import ExpenseModel from "../../models/expense-model.ts";
+import ExpenseModel, { amountTypeEnum } from "../../models/expense-model.ts";
 import { generateNextExpenseId } from "../../utils/next-expemse-id-generator.ts";
+import { CustomRequest } from "./initial-deposit-controller.ts";
 
 export const handleInitialDeposit = async (
-  req: RequestBudget,
+  req: CustomRequest,
   res: Response
 ) => {
   const { amount, description } = req.body;
@@ -43,7 +44,7 @@ export const handleInitialDeposit = async (
       userId: userId,
       expenseId: newExpenseId,
       amount: amount,
-      transactionType: "InitialDeposit",
+      transactionType: amountTypeEnum[2],
       description: description, // Stores the user's reason
       category: "Setup", // Use a fixed category for internal consistency
       isCurrent: true, // CRITICAL: This is the new active starting point

@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema({
   },
   createdAt: {
     type: "Date",
-    default: "Current Date/Time",
+    default: Date.now(),
   },
   updatedAt: {
     type: "Date",
-    default: "Current Date/Time",
+    default: Date.now(),
   },
 });
 

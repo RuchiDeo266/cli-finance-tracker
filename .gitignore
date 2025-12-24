@@ -19,3 +19,4 @@ yarn-error.log*
 pnpm-debug.log*
 
 /src/__test__
+jest.config.cjs

@@ -10,7 +10,7 @@ interface ClientRequest extends Request {
 }
 
 export const deleteExpense = async (req: ClientRequest, res: Response) => {
-  const { expenseId } = req.body;
+  const expenseId = req.body.expenseId;
   const userId = req.userId;
 
   if (!expenseId) {

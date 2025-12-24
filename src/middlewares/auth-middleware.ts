@@ -1,5 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { logger } from "../logs/prod-app.ts";
+
+const ACCESS_TOKEN_SECRET =
+  process.env.ACCESS_TOKEN_SECRET || "accessTokenFinTracker";
+
+interface AccessTokenPayload extends jwt.JwtPayload {
+  userId: string;
+}
 
 interface CustomRequest extends Request {
   userId?: string;
@@ -26,25 +34,30 @@ export const protect = (
   try {
     const decode = jwt.verify(
       accessToken,
-      "accessTokenFinTracker"
-    ) as jwt.JwtPayload;
+      ACCESS_TOKEN_SECRET
+    ) as AccessTokenPayload;
+
+    logger.debug?.(`Decoded access token payload: ${JSON.stringify(decode)}`);
+
     if (decode.userId) {
-      req.userId = decode.userId as string;
+      req.userId = decode.userId;
     } else {
       return res.status(401).json({
         success: false,
         message: "Token payload missing user identifier.",
       });
     }
-    next();
+
+    return next();
   } catch (error: any) {
-    if (error.name === "TokenExpiredError") {
+    if (error && error.name === "TokenExpiredError") {
       return res.status(401).json({
         success: false,
         code: "token_expired",
         message: "Access token has expired.",
       });
     }
+    logger.error?.("Access token verification failed", error);
     return res.status(401).json({
       success: false,
       message: "Invalid access token.",

@@ -1,6 +1,4 @@
 import mongoose, { Schema, Document } from "mongoose";
-
-import CategoryModel from "./category-model.ts";
 import { IBudget } from "../config/types/expenseInterface.ts";
 
 // Sub-schema for individual category limits
@@ -46,7 +44,6 @@ const budgetSchema: Schema = new Schema({
   },
 });
 
-// CRITICAL: Compound Index for Uniqueness and Performance
 // This ensures a user can only have ONE budget document for a specific month and year.
 budgetSchema.index({ userId: 1, month: 1, year: 1 }, { unique: true });
 

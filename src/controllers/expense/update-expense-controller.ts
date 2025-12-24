@@ -6,7 +6,7 @@ import { logger } from "../../logs/prod-app.ts";
 interface ClientRequest extends Request {
   body: {
     expenseId: string;
-    amount?: number;
+    amount: number;
     category: string;
     note: string;
   };
@@ -41,7 +41,7 @@ export const updateExpense = async (req: ClientRequest, res: Response) => {
       return;
     }
 
-    if (category && category !== expenseData.category) {
+    if (category && category !== expenseData.category && category !== "Setup") {
       const isValidCategory = await validateExpenseCategories([category]);
       if (!isValidCategory) {
         res.status(400).json({
@@ -66,7 +66,7 @@ export const updateExpense = async (req: ClientRequest, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Expense updated successfully",
-      data: updateExpense,
+      data: updatedExpense,
     });
   } catch (error: any) {
     logger.error("update Expense error :", error);

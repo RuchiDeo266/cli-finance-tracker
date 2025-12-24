@@ -22,7 +22,8 @@ userRouter.post("/update-password", asyncHandler(updatePassword));
 
 // protected
 userRouter.put("/refresh", asyncHandler(regerateToken));
-userRouter.put("/profile-upate", protect, asyncHandler(updateProfile));
-userRouter.put("/reset-password", protect, asyncHandler(updatePassword));
+userRouter.put("/profile-update", protect, asyncHandler(updateProfile));
+// TODO : Controller for reset password
+// userRouter.put("/reset-password", protect, asyncHandler(updatePassword));
 
 export default userRouter;

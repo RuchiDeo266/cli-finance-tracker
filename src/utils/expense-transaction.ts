@@ -12,7 +12,7 @@ export async function createTransaction(
   description?: string,
   notes?: string
 ): Promise<
-  { success: true; expenseId: string } | { success: false; message: string }
+  { success: true; expenseId: String } | { success: false; message: string }
 > {
   //check the transition type
   const isTransition = Object.values(amountTypeEnum).includes(
@@ -50,7 +50,7 @@ export async function createTransaction(
     await newExpense.save({ session }); // Save the new document
 
     await session.commitTransaction();
-    return { success: true, expenseId: expenseId };
+    return { success: true, expenseId };
   } catch (error: any) {
     await session.abortTransaction();
     console.error("TRANSACTION SERVICE FAILURE:", error);

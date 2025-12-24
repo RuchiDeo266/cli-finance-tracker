@@ -44,12 +44,28 @@ export const regerateToken = async (req: Request, res: Response) => {
     };
   }
 
-  if (refreshTokenDb.expiry > new Date()) {
+  // optional: ensure token belongs to the same user
+  if (
+    payload.userId &&
+    refreshTokenDb.userId &&
+    refreshTokenDb.userId.toString() !== payload.userId.toString()
+  ) {
     return res.status(401).send({
       success: false,
-      message: "Expired Refresh Token.",
+      message: "Refresh token does not belong to the authenticated user.",
     });
   }
+
+  const expiryDate = refreshTokenDb.expiry
+    ? new Date(refreshTokenDb.expiry)
+    : null;
+  if (!expiryDate || isNaN(expiryDate.getTime()) || expiryDate < new Date()) {
+    return res.status(401).send({
+      success: false,
+      message: "Expired or invalid refresh token.",
+    });
+  }
+
   const userId = payload.userId;
 
   const newAccessToken = generateAccessToken(userId);

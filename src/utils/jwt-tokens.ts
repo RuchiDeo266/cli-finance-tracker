@@ -9,9 +9,8 @@ const REFRESH_TOKEN_SECRET =
 const TEMPRORY_TOKEN_SECRET =
   process.env.TEMPRORY_TOKEN_SECRET || "temproryTokenSecret";
 
-//generate tokens
 const generateAccessToken = (userId: string) => {
-  return jwt.sign({ userId }, ACCESSS_TOKEN_SECRET, { expiresIn: "15m" });
+  return jwt.sign({ userId }, ACCESSS_TOKEN_SECRET, { expiresIn: "30m" });
 };
 
 const generateRefreshToken = async (userId: string) => {
@@ -30,13 +29,12 @@ const generateRefreshToken = async (userId: string) => {
       revoked: false,
       createdAt: new Date(),
     },
-    { upsert: true, new: true } //create if not exists
+    { upsert: true, new: true }
   );
 
   return newRefreshToken;
 };
 
-// check tokens
 const verifyAccessToken = (token: string) => {
   return jwt.verify(token, ACCESSS_TOKEN_SECRET);
 };

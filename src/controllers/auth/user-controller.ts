@@ -112,10 +112,15 @@ export const loginUser = async (req: Request, res: Response) => {
   });
 };
 
+interface CustomRequest extends Request {
+  userId?: string;
+}
 // Controller for updating a user's profile (protected)
-export const updateProfile = async (req: Request, res: Response) => {
+export const updateProfile = async (req: CustomRequest, res: Response) => {
   const username = req.body.newusername;
-  const userId = req.body.user_id; // TODO : change how the things are taken here
+  const userId = req.userId;
+
+  console.log(req.body);
 
   if (!userId) {
     return res
@@ -124,8 +129,7 @@ export const updateProfile = async (req: Request, res: Response) => {
   }
 
   if (!username && typeof username !== "string" && username.length < 3) {
-    return;
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: "Username must be string and at least more than 3 characters",
     });

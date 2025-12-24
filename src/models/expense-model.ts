@@ -1,6 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { IExpense } from "../config/types/expenseInterface.ts";
-export const amountTypeEnum = ["debit", "credit", "initialdeposit"];
+export const amountTypeEnum = [
+  "debit",
+  "credit",
+  "initialdeposit",
+  "investment",
+];
 const expenseSchema: Schema = new Schema({
   expenseId: {
     type: String,

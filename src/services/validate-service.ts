@@ -1,8 +1,15 @@
 import CategoryModel from "../models/category-model.ts";
 
 export async function validateExpenseCategories(categoryName: string[]) {
+  if (!categoryName || categoryName.length === 0) {
+    return {
+      success: false,
+      invalidCategories: ["Category list cannot be empty"],
+    };
+  }
+
   const validCategories = await CategoryModel.find(
-    { type: "Expense" },
+    { type: { $in: ["Expense", "Investment", "Income"] } },
     { name: 1, _id: 0 }
   ).lean();
 
@@ -13,7 +20,11 @@ export async function validateExpenseCategories(categoryName: string[]) {
   const invalidCategory: string[] = [];
 
   for (const name of categoryName) {
-    if (!validNames.has(name)) {
+    if (!name.trim()) {
+      invalidCategory.push(name);
+      continue;
+    }
+    if (!validNames.has(name.toLowerCase())) {
       invalidCategory.push(name);
     }
   }

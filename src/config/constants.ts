@@ -1,7 +1,4 @@
-import { logger } from "../logs/prod-app.ts";
-import CategoryModel from "../models/category-model.ts";
-
-const initialCategories = [
+export const INITIAL_CATEGORIES = [
   // --- Expense (Debit) Categories ---
   { name: "Food & Dining", type: "Expense" },
   { name: "Rent & Mortgage", type: "Expense" },
@@ -9,7 +6,7 @@ const initialCategories = [
   { name: "Utilities", type: "Expense" },
   { name: "Entertainment", type: "Expense" },
   { name: "Investments", type: "Expense" },
-  { name: "Loan/Credit cars", type: "Expense" },
+  { name: "Loan/Credit cards", type: "Expense" },
   { name: "Luxury/Clothing", type: "Expense" },
   { name: "Beauty", type: "Expense" },
   { name: "Vacation/Fun time", type: "Expense" },
@@ -23,19 +20,18 @@ const initialCategories = [
   { name: "Gift/Winnings", type: "Income" },
   { name: "Reimbursement", type: "Income" },
 
+  // --- Investment ---
+  { name: "Stocks", type: "Investment" },
+  { name: "Bonds", type: "Investment" },
+  { name: "Mutual Funds", type: "Investment" },
+  { name: "Exchange-Traded Funds (ETFs)", type: "Investment" },
+  { name: "Real Estate", type: "Investment" },
+  { name: "Cryptocurrency", type: "Investment" },
+  { name: "Retirement Account (401k/IRA)", type: "Investment" },
+  { name: "Commodities", type: "Investment" },
+  { name: "Savings Account", type: "Investment" },
+  { name: "Certificates of Deposit (CDs)", type: "Investment" },
+
+  // --- Initial Deposit ---s
   { name: "Setup", type: "InitialDeposit" },
 ];
-
-export const seedCategories = async () => {
-  // verify the imported model resolved and expose expected API
-  try {
-    const documents = await CategoryModel.countDocuments();
-    if (documents === 0) {
-      CategoryModel.insertMany(initialCategories);
-    } else {
-      logger.info("Categories already exists");
-    }
-  } catch (error: any) {
-    logger.error(error);
-  }
-};
