@@ -1,0 +1,7 @@
+name = "finetrack-api"
+main = "src/server.ts"      # This must point to your actual code file
+compatibility_date = "2026-01-05"
+
+[[r2_buckets]]
+binding = "FINANCE_BUCKET" 
+bucket_name = "fintracker"
