@@ -14,5 +14,9 @@ declare namespace NodeJS {
     MAILTRAP_USER: string;
     MAILTRAP_PASS: string;
     EMAIL_FROM: string;
+
+    R2_ACCOUNT_ID: string;
+    R2_ACCESS_KEY_ID: string;
+    R2_SECRETACCESSKEY_ID: string;
   }
 }

@@ -14,6 +14,7 @@ import { errorHandler } from "./middlewares/errorHandlers.ts";
 import operation from "./routes/crud-routes.ts";
 import { seedCategories } from "./seeds/seed-expense-category.ts";
 import { sampleMonthlyDigest } from "./jobs/monthly digest/sample data/sample-monthly-digest.ts";
+import { r2Client } from "./bucket-config.ts";
 
 const app = express();
 
@@ -57,16 +58,15 @@ app.use(errorHandler);
 
 // port
 const port = 4000;
-// const startServer = async () => {
+const startServer = async () => {
+  await connectDB();
+  // await seedCategories();
 
-//   await connectDB();
-//   // await seedCategories();
+  app.listen(port, () => {
+    logger.info(`Server is running on http://localhost:${port}`);
+    // launch the category for the everyone :: once
+  });
+};
 
-//   app.listen(port, () => {
-//     logger.info(`Server is running on http://localhost:${port}`);
-//     // launch the category for the everyone :: once
-//   });
-// };
-
-// startServer()
-sampleMonthlyDigest();
+startServer();
+// sampleMonthlyDigest();

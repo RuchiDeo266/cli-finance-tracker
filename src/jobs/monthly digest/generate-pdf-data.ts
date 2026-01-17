@@ -1,7 +1,7 @@
 import { SavingRow } from "../../config/types/digest.ts";
 import { PassableObj } from "./monthly-digest.ts";
 
-// TODO: change type back to passableObj
+// TODO: change type back to passableObj for prod
 export const generatePdfData = async (
   passableObject: any,
   analysisFromAi: any
